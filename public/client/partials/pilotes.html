@@ -1,0 +1,17 @@
+<div class="col-md-8">
+  <div class="panel panel-default">
+    <div class="panel-heading">Pilotes</div>
+    <div class="panel-body">
+        <ul class="nav nav-pills nav-stacked" ng-if="liste">
+            <li ng-repeat="pilote in liste">
+                {{liste.nom}} ({{liste.prenom}})
+            </li>
+        </ul>
+    </div>
+    <div class="panel-footer text-center">
+      <ul class="list-inline">
+        <li>{{liste.length}} pilotes</li>
+      </ul>
+    </div>
+  </div>
+</div>

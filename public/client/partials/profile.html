@@ -1,0 +1,221 @@
+<div class="col-md-9">
+  <div class="panel panel-default">
+    <div class="panel-heading"><i class="fa fa-edit"></i> Profil</div>
+    <div class="panel-body">
+      <form method="post" ng-submit="updateProfile()"  name="profileForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label">Photo</label>
+              <img class="profile-picture" ng-src="{{user.picture || 'http://placehold.it/100x100'}}">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputFile">Modifier la photo</label>
+              <input type="file" id="exampleInputFile">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h3>{{user.prenom}} {{user.nom}}</h3>
+            <h4 ng-if="user.date_naissance">{{user.date_naissance | ageFilter }} ans</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label"><i class="fa fa-at"></i> Adresse email</label>
+              <input type="email" class="form-control" ng-model="user.email" disabled/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group" ng-class="{ 'has-error' : profileForm.nom.$invalid && profileForm.nom.$dirty }">
+              <label class="control-label"><i class="fa fa-user"></i> Nom</label>
+              <input class="form-control" type="text" name="nom" ng-model="user.nom" placeholder="Saisir votre nom" required>
+              <div class="help-block text-danger" ng-if="profileForm.nom.$dirty" ng-messages="profileForm.nom.$error">
+                <div ng-message="required">Votre nom est obligatoire</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" ng-class="{ 'has-error' : profileForm.prenom.$invalid && profileForm.prenom.$dirty }">
+              <label class="control-label"><i class="fa fa-user"></i> Prénom</label>
+              <input class="form-control" type="text" name="prenom" ng-model="user.prenom" placeholder="Saisir votre prénom" required>
+              <div class="help-block text-danger" ng-if="profileForm.prenom.$dirty" ng-messages="profileForm.prenom.$error">
+                <div ng-message="required">Votre prénom est obligatoire</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group" ng-class="{ 'has-error' : profileForm.date_naissance.$invalid && profileForm.date_naissance.$dirty }">
+              <label class="control-label"><i class="fa fa-calendar"></i> Date de naissance</label>
+              <p class="input-group">
+                <input type="text" name="date_naissance" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="user.date_naissance" is-open="opendate_naissance" datepicker-options="" clear-text="Réinitialiser" current-text="Aujourd'hui" close-text="Fermer" max-date="today" placeholder="Saisir votre date de naissance" required/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="opendate_naissance = !opendate_naissance"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+                <div class="help-block text-danger" ng-if="profileForm.date_naissance.$dirty" ng-messages="profileForm.date_naissance.$error">
+                  <div ng-message="required">Votre date de naissance est obligatoire</div>
+                </div>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label"><i class="fa fa-venus-mars"></i> Sexe</label>
+              <p class="input-group">
+                <label class="radio-inline"><input value="male" type="radio" name="sexe" ng-model="user.sexe" required/><i class="fa fa-male"></i> Homme</label>
+                <label class="radio-inline"><input value="female" type="radio" name="sexe" ng-model="user.sexe" required/><i class="fa fa-female"></i> Femme</label>
+              </p>        
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label"><i class="fa fa-phone"></i> Tel Fixe</label>
+              <input class="form-control" type="text" name="tel_fixe" ng-model="user.tel_fixe" placeholder="Saisir votre téléphone fixe">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="control-label"><i class="fa fa-mobile"></i> Tel Portable</label>
+              <input class="form-control" type="text" name="tel_port" ng-model="user.tel_port" placeholder="Saisir votre téléphone portable">
+            </div>
+          </div>
+        </div>
+        <label class="control-label"><i class="fa fa-edit"></i> Type de profil</label>
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="user.pilote">Pilote</label>
+        </div>
+        <div uib-collapse="!user.pilote">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Numéro de licence</label>
+                <input type="text" class="form-control" ng-model="user.num_licence"/>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Numéro de licence du tuteur</label>
+                <input type="text" class="form-control" ng-model="user.num_licence_tuteur"/>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="control-label">Numéro de transpondeur</label>
+                <input type="text" class="form-control" ng-model="user.num_transpondeur"/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="checkbox disabled">
+                  <label>
+                    <input type="checkbox" ng-model="derogation" disabled> Dérogation
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="checkbox disabled">
+          <label><input type="checkbox" ng-model="user.staff" disabled>Staff</label>
+        </div>
+        <div class="checkbox disabled">
+          <label><input type="checkbox" ng-model="user.admin" disabled>Administrateur</label>
+        </div>
+        <button ng-disabled="profileForm.$invalid" class="btn btn-success">Mise à jour</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-3">
+  <div class="panel panel-default">
+    <div class="panel-heading" ng-click="passwordCollapsed = !passwordCollapsed"><i class="fa fa-key"></i> Mot de passe</div>
+    <div uib-collapse="passwordCollapsed">
+      <div class="panel-body">
+        <form method="post" ng-submit="setPassword()"  name="newPasswordForm" ng-show="!user.has_password">
+          Créer
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : newPasswordForm.password.$invalid && newPasswordForm.password.$dirty }">
+            <input password-strength class="form-control" type="password" name="password" ng-model="newPassword.password" placeholder="Mot de passe" required>
+            <span class="fa fa-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-if="newPasswordForm.password.$dirty" ng-messages="newPasswordForm.password.$error">
+              <div ng-message="required">Le mot de passe est obligatoire</div>
+            </div>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : newPasswordForm.confirmPassword.$invalid && newPasswordForm.confirmPassword.$dirty }">
+            <input password-match="newPassword.password" class="form-control" type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirmation">
+            <span class="fa fa-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-if="newPasswordForm.confirmPassword.$dirty" ng-messages="newPasswordForm.confirmPassword.$error">
+              <div ng-message="compareTo">Les mots de passe ne correspondent pas</div>
+            </div>
+          </div>
+          <button ng-disabled="newPasswordForm.$invalid" class="btn btn-block btn-success">Créer</button>
+        </form>
+        <form method="post" ng-submit="updatePassword()"  name="passwordForm" ng-show="user.has_password">
+          Modifier
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : passwordForm.old_password.$invalid && passwordForm.old_password.$dirty }">
+            <input password-strength class="form-control" type="password" name="old_password" ng-model="password.old_password" placeholder="Ancien" required>
+            <span class="fa fa-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-if="passwordForm.old_password.$dirty" ng-messages="passwordForm.old_password.$error">
+              <div ng-message="required">L'ancien mot de passe est obligatoire</div>
+            </div>
+          </div>
+          <div uib-collapse="!password.old_password">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : passwordForm.new_password.$invalid && passwordForm.new_password.$dirty }">
+              <input password-strength class="form-control" type="password" name="new_password" ng-model="password.new_password" placeholder="Nouveau" required>
+              <span class="ion-key form-control-feedback"></span>
+              <div class="help-block text-danger" ng-if="passwordForm.new_password.$dirty" ng-messages="passwordForm.new_password.$error">
+                <div ng-message="required">Le nouveau mot de passe est obligatoire</div>
+              </div>
+            </div>
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : passwordForm.confirmPassword.$invalid && passwordForm.confirmPassword.$dirty }">
+              <input password-match="password.new_password" class="form-control" type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirmation">
+              <span class="ion-key form-control-feedback"></span>
+              <div class="help-block text-danger" ng-if="passwordForm.confirmPassword.$dirty" ng-messages="passwordForm.confirmPassword.$error">
+                <div ng-message="compareTo">Les mots de passe ne correspondent pas</div>
+              </div>
+            </div>
+          </div>
+          <button ng-disabled="passwordForm.$invalid" class="btn btn-block btn-success">Mise à jour</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" ng-click="comptesCollapsed = !comptesCollapsed"><i class="fa fa-link"></i> Comptes reliés</div>
+    <div uib-collapse="comptesCollapsed">
+      <div class="panel-body">
+        <div class="text-center">
+          <div class="btn-group-vertical">
+            <button class="btn btn-sm btn-danger" ng-if="user.facebook_id" ng-click="unlink('facebook')">
+              <i class="ion-social-facebook"></i> Détacher votre compte Facebook
+            </button>
+            <button class="btn btn-sm btn-primary" ng-if="!user.facebook_id" ng-click="link('facebook')">
+              <i class="ion-social-facebook"></i> Relier votre compte Facebook
+            </button>
+
+<!--             <button class="btn btn-sm btn-danger" ng-if="user.google" ng-click="unlink('google')">
+              <i class="ion-social-googleplus"></i> Détacher votre compte Google
+            </button>
+            <button class="btn btn-sm btn-primary" ng-if="!user.google" ng-click="link('google')">
+              <i class="ion-social-googleplus"></i> Relier votre compte Google
+            </button> -->
+
+<!--             <button class="btn btn-sm btn-danger" ng-if="user.twitter" ng-click="unlink('twitter')">
+              <i class="ion-social-twitter"></i>  Détacher votre compte Twitter
+            </button>
+            <button class="btn btn-sm btn-primary" ng-if="!user.twitter" ng-click="link('twitter')">
+              <i class="ion-social-twitter"></i> Relier votre compte Twitter
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

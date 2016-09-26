@@ -1,0 +1,33 @@
+<div class="center-form panel">
+  <div class="panel-body">
+    <h2 class="text-center">Connexion</h2>
+    <form method="post" ng-submit="login()" name="loginForm">
+      <div class="form-group has-feedback">
+        <input class="form-control" type="text" name="email" ng-model="user.email" placeholder="Email" required autofocus>
+        <span class="ion-at form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input class="form-control" type="password" name="password" ng-model="user.password" placeholder="Mot de passe" required>
+        <span class="ion-key form-control-feedback"></span>
+      </div>
+      <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg  btn-block btn-success">Se connecter</button>
+      <br/>
+      <p class="text-center text-muted">
+        <small>Vous n'avez pas de compte? <a href="/#/signup">Enregistrez vous</a></small>
+      </p>
+<!--       <div class="signup-or-separator">
+        <h6 class="text">ou</h6>
+        <hr>
+      </div> -->
+    </form>
+<!--     <button class="btn btn-block btn-facebook" ng-click="authenticate('facebook')">
+      <i class="ion-social-facebook"></i> Se connecter avec Facebook
+    </button> -->
+<!--     <button class="btn btn-block btn-google-plus" ng-click="authenticate('google')">
+      <span class="ion-social-googleplus"></span> Se connecter avec Google
+    </button> -->
+<!--     <button class="btn btn-block btn-twitter" ng-click="authenticate('twitter')">
+      <i class="ion-social-twitter"></i> Se connecter avec Twitter
+    </button> -->
+  </div>
+</div>

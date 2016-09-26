@@ -1,0 +1,66 @@
+<div class="center-form panel">
+  <div class="panel-body">
+    <h2 class="text-center">Inscription</h2>
+    <form method="post" ng-submit="signup()" name="signupForm">
+      <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.nom.$invalid && signupForm.nom.$dirty }">
+        <input class="form-control" type="text" name="nom" ng-model="user.nom" placeholder="Nom" required autofocus>
+        <span class="ion-person form-control-feedback"></span>
+        <div class="help-block text-danger" ng-if="signupForm.nom.$dirty" ng-messages="signupForm.nom.$error">
+          <div ng-message="required">Votre nom est obligatoire</div>
+        </div>
+      </div>
+      <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.prenom.$invalid && signupForm.prenom.$dirty }">
+        <input class="form-control" type="text" name="prenom" ng-model="user.prenom" placeholder="Prénom" required autofocus>
+        <span class="ion-person form-control-feedback"></span>
+        <div class="help-block text-danger" ng-if="signupForm.prenom.$dirty" ng-messages="signupForm.prenom.$error">
+          <div ng-message="required">Votre nom est obligatoire</div>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error' : signupForm.date_naissance.$invalid && signupForm.date_naissance.$dirty }">
+        <label class="control-label"><i class="fa fa-calendar"></i> Date de naissance</label>
+        <p class="input-group">
+          <input type="text" name="date_naissance" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="user.date_naissance" is-open="opendate_naissance" datepicker-options="" clear-text="Réinitialiser" current-text="Aujourd'hui" close-text="Fermer" max-date="today" placeholder="Saisir votre date de naissance" required/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="opendate_naissance = !opendate_naissance"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+          <div class="help-block text-danger" ng-if="signupForm.date_naissance.$dirty" ng-messages="signupForm.date_naissance.$error">
+            <div ng-message="required">Votre date de naissance est obligatoire</div>
+          </div>
+        </p>
+      </div>
+      <div class="form-group">
+        <label class="control-label"><i class="fa fa-venus-mars"></i> Sexe</label>
+        <p class="input-group">
+          <label class="radio-inline"><input value="male" type="radio" name="sexe" ng-model="user.sexe" required/><i class="fa fa-male"></i> Homme</label>
+          <label class="radio-inline"><input value="female" type="radio" name="sexe" ng-model="user.sexe" required/><i class="fa fa-female"></i> Femme</label>
+        </p>        
+      </div>
+      <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.email.$invalid && signupForm.email.$dirty }">
+        <input class="form-control" type="email" id="email" name="email" ng-model="user.email" placeholder="Email" required>
+        <span class="ion-at form-control-feedback"></span>
+        <div class="help-block text-danger" ng-if="signupForm.email.$dirty" ng-messages="signupForm.email.$error">
+          <div ng-message="required">Votre adresse email est obligatoire</div>
+          <div ng-message="pattern">Votre adresse email n'est pas valide</div>
+        </div>
+      </div>
+      <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.password.$invalid && signupForm.password.$dirty }">
+        <input password-strength class="form-control" type="password" name="password" ng-model="user.password" placeholder="Mot de passe" required>
+        <span class="ion-key form-control-feedback"></span>
+        <div class="help-block text-danger" ng-if="signupForm.password.$dirty" ng-messages="signupForm.password.$error">
+          <div ng-message="required">Le mot de passe est obligatoire</div>
+        </div>
+      </div>
+      <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.confirmPassword.$invalid && signupForm.confirmPassword.$dirty }">
+        <input password-match="user.password" class="form-control" type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirmation">
+        <span class="ion-key form-control-feedback"></span>
+        <div class="help-block text-danger" ng-if="signupForm.confirmPassword.$dirty" ng-messages="signupForm.confirmPassword.$error">
+          <div ng-message="compareTo">Les mots de passe ne correspondent pas</div>
+        </div>
+      </div>
+      <p class="text-center text-muted"><small>En cliquant sur S'inscrire, vous accepter <a href="#">les termes & conditions d'utilisation</a> ainsi que <a href="#">la politique de confidentialité</a></small></p>
+      <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-block btn-primary">S'inscrire</button>
+      <br/>
+      <p class="text-center text-muted">Vous avez déjà un compte? <a ui-sref="login">Connectez-vous</a></p>
+    </div>
+    </form>
+</div>

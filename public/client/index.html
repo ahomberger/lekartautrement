@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Le Kart autrement</title>
+    <!-- <link href="favicon.png" rel="shortcut icon"> -->
+    <!-- <link href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.min.css" rel="stylesheet">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-datepicker/2.1.6/angular-datepicker.min.css" rel="stylesheet"> -->
+    <!-- <link href="/client/stylesheets/styles.css" rel="stylesheet"> -->
+    <!-- <link href="/stylesheets/bootstrap-spacelab.min.css" rel="stylesheet"> -->
+    <!-- <link href="/stylesheets/bootstrap-cyborg.min.css" rel="stylesheet"> -->
+    <!-- <link href="/stylesheets/bootstrap-slate.min.css" rel="stylesheet"> -->
+    <!-- <link href="/stylesheets/bootstrap-darkly.min.css" rel="stylesheet"> -->
+</head>
+<body ng-app="clientApp">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <nav ng-controller="NavbarCtrl" class="navbar navbar-inverse navbar-static-top">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> 
+                    </button>
+                    <a class="navbar-brand" href="/">Le Kart autrement</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Catégories<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a ui-sref="categorie_mini">Mini</a></li>
+                                <li><a ui-sref="categorie_jeune">Jeunes</a></li>
+                                <li><a ui-sref="categorie_subaru400">Subaru 400</a></li>
+                                <li><a ui-sref="categorie_x30">IAME X30</a></li>
+                                <li><a ui-sref="categorie_rotax">Rotax</a></li>
+                                <li><a ui-sref="categorie_kz">KZ</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li><a href="#/classement">Classements</a></li> -->
+                        <li ui-sref-active="active"><a ui-sref="home">Accueil</a></li>
+                        <!-- <li ui-sref-active="active"><a ui-sref="pilotes">Pilotes</a></li> -->
+                        <!-- <li ui-sref-active="active"><a ui-sref="circuits">Circuits</a></li> -->
+                        <li ui-sref-active="active"><a ui-sref="courses">Courses</a></li>
+                        <!-- <li><a href="#/pilotes">Pilotes</a></li> -->
+                    </ul>
+                    <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
+                        <li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a></li>
+                        <li><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> S'inscrire</a></li>
+                    </ul>
+                    <ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right">
+                        <li><a ui-sref="profile">Profil</a></li>
+                        <li><a ui-sref="logout"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+            <div ui-view></div>
+    </div>
+</div>
+<!-- Third-party Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/i18n/angular-locale_fr-fr.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-messages.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-resource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.4/ui-bootstrap-tpls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/satellizer/0.14.1/satellizer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-toastr/2.1.1/angular-toastr.tpls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/locale/fr.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-datepicker/2.1.6/angular-datepicker.min.js"></script> -->
+
+
+<!-- Application Code -->
+<script src="/client/env.js"></script>
+<script src="/client/app.js"></script>
+<!-- <script src="/client/directives/passwordStrength.js"></script> -->
+<!-- <script src="/client/directives/passwordMatch.js"></script> -->
+<!-- <script src="/directives/angular-datepicker.js"></script> -->
+<script src="/client/filters/agefilter.js"></script>
+<script src="/client/controllers/home.js"></script>
+<script src="/client/controllers/navbar.js"></script>
+<script src="/client/controllers/login.js"></script>
+<script src="/client/controllers/signup.js"></script>
+<script src="/client/controllers/logout.js"></script>
+<script src="/client/controllers/profile.js"></script>
+<script src="/client/controllers/course.js"></script>
+<!-- <script src="/client/services/resource.js"></script> -->
+<script src="/client/services/user.js"></script>
+<script src="/client/services/course.js"></script>
+<!-- <script src="/client/services/httpinterceptor.js"></script> -->
+</body>
+</html>
