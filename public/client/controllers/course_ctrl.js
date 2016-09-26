@@ -1,9 +1,9 @@
 angular.module(appConfig.appName)
-.controller('CourseCtrl', function($scope, Course, Circuit, $http, $auth) {
-    $scope.liste = [];
+.controller('CourseCtrl', function($scope, Saison, Trophee, Course, Circuit, $http, $auth) {
+    $scope.courses = [];
 
     index();
-    initStore();
+    initStoreCourse();
 
     $scope.store = function () {
         var course = new Course();
@@ -13,11 +13,11 @@ angular.module(appConfig.appName)
         course.annulee = $scope.annulee;
 
         var courseData = angular.copy($scope.course);
-        courseData.date = moment(courseData.date).format('YYYY-MM-DD hh:mm:ss');
+        courseData.date = moment(courseData.date).format('YYYY-MM-DD');
         Course.updateProfile(userData)
         .then(function() {
           toastr.options.positionClass = "toast-top-center";
-          toastr.success('Votre profil a été mis à jour');
+          toastr.success('La course a été ajoutée');
           $scope.getProfile();
         })
         .catch(function(response) {
@@ -25,16 +25,16 @@ angular.module(appConfig.appName)
         });
 
         course.$save(function (data) {
-            $scope.liste.push(data.course);
-            initStore();
+            $scope.courses.push(data.course);
+            initStoreCourse();
         });
     }
 
     $scope.destroy = function (index) {
-        angular.forEach($scope.liste, function (value, key) {
-          if($scope.liste.indexOf(value) === index) {
+        angular.forEach($scope.courses, function (value, key) {
+          if($scope.courses.indexOf(value) === index) {
             Course.delete({id: value.id}, function () {
-                $scope.liste.splice(index, 1);    
+                $scope.courses.splice(index, 1);    
             });
           }
         });
@@ -45,11 +45,13 @@ angular.module(appConfig.appName)
     };
 
     function index() {
-        $scope.liste = Course.query().courses;
-        console.log($scope.liste);
+        $scope.saisons = Saison.query();
+        $scope.trophees = Trophee.query();
+        $scope.circuits = Circuit.query();
+        $scope.courses = Course.query();
     }
 
-    function initStore() {
+    function initStoreCourse() {
         $scope.circuit = "";
         $scope.date = "";
         $scope.sens_inverse = false;

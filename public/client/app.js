@@ -59,14 +59,8 @@ angular.module(appConfig.appName, ['ngResource', 'ngMessages', 'ngAnimate', 'ui.
     $urlRouterProvider.otherwise('/');
 
     // ============ Satellizer ============
-    $authProvider.facebook({
-        clientId: appConfig.facebookClientId
-    });
-
-    $authProvider.google({
-        clientId: appConfig.googleClientId
-    });
-	
+    $authProvider.facebook({ clientId: appConfig.facebookClientId });
+    $authProvider.google({ clientId: appConfig.googleClientId });
 	$authProvider.baseUrl = appConfig.apiPath;
 	$authProvider.loginUrl = appConfig.loginUrl;
 	$authProvider.signupUrl = appConfig.signupUrl;

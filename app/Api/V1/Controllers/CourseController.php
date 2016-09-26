@@ -8,7 +8,7 @@ use App\Course;
 class CourseController extends Controller {
 
     public function __construct() {
-        $this->middleware('jwt.auth', ['except' => ['index', 'show']]);
+        $this->middleware('api.auth', ['except' => ['index', 'show']]);
     }
 
     public function index() {

@@ -1,68 +1,117 @@
-<div class="col-md-8">
-  <div class="panel panel-default">
-    <div class="panel-heading">Courses</div>
-    <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked" ng-if="liste">
-            <li ng-repeat="course in courses">
-                <!-- <a ng-click="authenticated ? delete(course.id) : ''" ng-class="course.annulee ? 'bg-danger' : 'bg-primary'"> -->
-                <a ng-click="destroy($index)" ng-class="course.annulee ? 'bg-danger' : 'bg-primary'">
-                    {{course.circuit}} ({{course.date}})
-                    <span ng-if="course.sens_inverse">&#x27f2;</span>
-                    <span ng-if="!course.sens_inverse">&#x27f3;</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="panel-footer text-center">
-      <ul class="list-inline">
-        <li>{{courses.length}} courses</li>
-      </ul>
-    </div>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">Filtre</div>
+        <div class="panel-body">
+          <form method="post" name="FiltreForm">
+            <div class="row">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label class="control-label">Saison</label>
+                  <select class="form-control">
+                    <option ng-repeat="saison in saisons" label="{{saison.annee}}">{{saison.id}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Trophée</label>
+                  <select class="form-control">
+                    <option ng-repeat="trophee in trophees | filter: trophee.saison = saison.id" label="{{trophee.nom}}">{{trophee.id}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Circuit</label>
+                  <select class="form-control">
+                    <option ng-repeat="circuit in circuits" label="{{circuit.nom}}">{{circuit.id}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Course</label>
+                  <select class="form-control">
+                    <option ng-repeat="course in courses" label="{{course.date | date}}">{{course.id}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>      
+  </div>
+  <div class="row">
+    <div class="col-md-4" ng-if="isAdmin()">
+      <div class="panel panel-default">
+        <div class="panel-heading">Ajouter une course</div>
+        <div class="panel-body">
+          <div class="alert alert-danger" ng-if="error">
+              <h3>Erreur: </h3>
+              <h5 ng-if="error.circuit">Course</h3>
+              <p ng-repeat"circuit in error">Test {{circuit[0]}}</p>
+              <p ng-if="error.date">Date : {{error.date[0]}}</p>
+          </div>
+          <form ng-submit="store()" method="post" name="AddCourseForm">
+              <div class="form-group">
+                <label class="control-label">Circuit</label>
+                <select class="form-control">
+                  <option ng-repeat="circuit in circuits" label="{{circuit.nom}}">{{circuit.id}}</option>
+                </select>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : AddCourseForm.date.$invalid && AddCourseForm.date.$dirty }">
+                <label class="control-label"><i class="ion-calendar"></i> Date</label>
+                <p class="input-group">
+                  <input type="text" name="date" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="user.date" is-open="opendate" datepicker-options="" clear-text="Réinitialiser" current-text="Aujourd'hui" close-text="Fermer" max-date="today" placeholder="Saisir la date de la course" required/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="opendate = !opendate"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                  <div class="help-block text-danger" ng-if="AddCourseForm.date.$dirty" ng-messages="AddCourseForm.date.$error">
+                    <div ng-message="required">La date est obligatoire</div>
+                  </div>
+                </p>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                      <div class="checkbox">
+                          <label>
+                              <input type="checkbox" ng-model="annulee"> Annulée
+                          </label>
+                           <label>
+                              <input type="checkbox" ng-model="sens_inverse"> Sens inverse
+                          </label>
+                      </div>
+                  </div>
+              </div>
+              <button ng-disabled="AddCourseForm.$invalid" class="btn btn-lg btn-success">Ajouter</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-<div class="col-md-4">
-  <div class="panel panel-default">
-    <div class="panel-heading">Ajouter</div>
-    <div class="panel-body">
-        <div class="alert alert-danger" ng-if="error">
-            <h3>Erreur: </h3>
-            <h5 ng-if="error.circuit">Course</h3>
-            <p ng-repeat"circuit in error">Test {{circuit[0]}}</p>
-            <p ng-if="error.date">Date : {{error.date[0]}}</p>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">Courses</div>
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked" ng-if="courses">
+                <li ng-repeat="course in courses">
+                    <a ng-click="authenticated ? delete(course.id) : ''" ng-class="course.annulee ? 'bg-danger' : 'bg-primary'">
+                    <!-- <a ng-click="destroy($index)" ng-class="course.annulee ? 'bg-danger' : 'bg-primary'"> -->
+                        {{ course.circuit }} <span ng-if="course.sens_inverse"> (sens inverse)</span><br/>{{ course.date | date }}
+                    </a>
+                </li>
+            </ul>
         </div>
-        <form class="form-horizontal" ng-submit="store()" ng-if="isAdmin()" method="post" name="AddCourseForm">
-            <div class="form-group">
-              <label class="control-label">Circuit</label>
-              <select class="form-control">
-                <option ng-repeat="circuit in circuits" label="{{circuit.nom}}">{{circuit.id}}</option>
-              </select>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error' : AddCourseForm.date.$invalid && AddCourseForm.date.$dirty }">
-              <label class="control-label"><i class="ion-calendar"></i> Date</label>
-              <p class="input-group">
-                <input type="text" name="date" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="user.date" is-open="opendate" datepicker-options="" clear-text="Réinitialiser" current-text="Aujourd'hui" close-text="Fermer" max-date="today" placeholder="Saisir la date de la course" required/>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="opendate = !opendate"><i class="glyphicon glyphicon-calendar"></i></button>
-                </span>
-                <div class="help-block text-danger" ng-if="AddCourseForm.date.$dirty" ng-messages="AddCourseForm.date.$error">
-                  <div ng-message="required">La date est obligatoire</div>
-                </div>
-              </p>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="annulee"> Annulée
-                        </label>
-                         <label>
-                            <input type="checkbox" ng-model="sens_inverse"> Sens inverse
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <button ng-disabled="AddCourseForm.$invalid" class="btn btn-lg btn-success">Ajouter</button>
-        </form>
+        <div class="panel-footer text-center">
+          <ul class="list-inline">
+            <li>{{courses.length}} courses</li>
+          </ul>
         </div>
+      </div>
     </div>
+  </div>
 </div>

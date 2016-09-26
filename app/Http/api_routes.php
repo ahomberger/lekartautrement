@@ -29,6 +29,14 @@ $api->version('v1', ['namespace' => 'App\Api\V1\Controllers'], function ($api) {
 		return \App\Circuit::all();
 	});
 
+	$api->get('trophees', function() {
+		return \App\Trophee::all();
+	});
+
+	$api->get('saisons', function() {
+		return \App\Saison::all();
+	});
+
 
 	$api->group(['middleware' => 'api.auth'], function ($api) {
 	    $api->get('user/profile', 'UserController@getUser');

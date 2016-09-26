@@ -1,80 +1,81 @@
-<?php namespace App\Http\Controllers;
+<?php 
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Trophee;
 
 class TropheeController extends Controller {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
-  public function index()
-  {
-    
-  }
+    public function __construct() {
+        $this->middleware('api.auth', ['except' => ['index', 'show']]);
+    }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
-  public function create()
-  {
-    
-  }
+    public function index() {
+        try {
+            $trophees = Trophee::get()->toArray();
+            return response()->json($trophees);
+        }
+            catch(Exception $e) {
+            return response()->json(['message' => 'Echec de récupération'], 404);
+        }
+    }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
-  public function store()
-  {
-    
-  }
+    public function create() {
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function show($id)
-  {
-    
-  }
+    }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function edit($id)
-  {
-    
-  }
+    public function store() {
+        $this->validate($request, [
+        'circuit' => 'required',
+        'date' => 'required|date',
+        'sens_inverse' => 'required',
+        'annulee' => 'required',
+        ]);
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
-  {
-    
-  }
+        try {
+            $trophee = New Trophee;
+            $trophee->circuit = $request->get('circuit');
+            $trophee->date = $request->get('date');
+            $trophee->sens_inverse = $request->get('sens_inverse');
+            $trophee->annulee = $request->get('annulee');
+            $trophee->save();
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function destroy($id)
-  {
-    
-  }
+            return response()->json(['course' => $trophee->toArray()],201);
+        }
+        catch(Exception $e) {
+            return response()->json(['message' => 'Echec de création'], 404);
+        }
+    }
+
+    public function show($id) {
+        try {
+            $trophee = Trophee::findOrFail($id);
+            return response()->json(compact('course'));
+        }
+        catch(Exception $e) {
+            return response()->json(['message' => 'Echec de récupération'], 404);
+        }
+    }
+
+    public function edit($id) {
+
+    }
+
+    public function update($id) {
+
+    }
+
+    public function destroy($id) {
+        try {
+            $trophee = Trophee::findOrFail($id);
+            $trophee->delete();
+            return response(204);
+        }
+        catch(Exception $e) {
+            return response()->json(['Echec de suppression'], 404);
+        }
+    }
   
 }
 
