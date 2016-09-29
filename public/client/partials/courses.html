@@ -6,19 +6,11 @@
         <div class="panel-body">
           <form method="post" name="FiltreForm">
             <div class="row">
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="control-label">Saison</label>
-                  <select class="form-control" ng-model="saison_select">
-                    <option ng-repeat="saison in saisons" label="{{saison.annee}}">{{saison.id}}</option>
-                  </select>
-                </div>
-              </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label" ng-model="trophee_select">Trophée</label>
                   <select class="form-control">
-                    <option ng-repeat="trophee in trophees | filter :{saison_id: saison_select}" label="{{trophee.nom}}">{{trophee.id}}</option>
+                    <option ng-repeat="course in courses | unique:'trophee_id'" label="{{course.trophee}}">{{course.trophee_id}}</option>
                   </select>
                 </div>
               </div>
@@ -26,15 +18,7 @@
                 <div class="form-group">
                   <label class="control-label" ng-model="circuit_select">Circuit</label>
                   <select class="form-control">
-                    <option ng-repeat="course in courses | filter :{trophee_id: trophee_select}" label="{{course.circuit}}">{{course.circuit_id}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="control-label" ng-model="course_select">Date</label>
-                  <select class="form-control">
-                    <option ng-repeat="course in courses | filter :{circuit_id: circuit_select}" label="{{course.date | date}}">{{course.id}}</option>
+                    <option ng-repeat="course in courses" label="{{course.circuit}} ({{course.date}})">{{course.circuit_id}}</option>
                   </select>
                 </div>
               </div>
